@@ -1,0 +1,8 @@
+{
+  "compilerOptions": {
+    "moduleResolution": "node",
+    "target": "ES2022",
+    "lib": ["ES2022", "DOM"]
+  },
+  "extends": "@tsconfig/node18-strictest-esm/tsconfig"
+}
