@@ -1,8 +1,11 @@
-# My Vercel Middleware for Subdomain Redirection
+# My Vercel App for Subdomain Redirects
+
+This is a Vercel application that enables subdomain redirection to other domains using Edge Middleware.
 
 ## Usage
 
-Fork this repository and modify the `myDomain` and `subdomainMap` variables in `middleware.ts`.
+- Fork this repository and modify the `myDomain` and `subdomainMap` variables in `middleware.ts`.
+- Deploy the forked repository to Vercel and set up the domain listed in the `subdomainMap` variable.
 
 ## Local Testing
 
@@ -14,6 +17,11 @@ Requirements: please check the `engines` field in `package.json`.
 - Open your browser and visit `http://my.domain:3000`.
 
 Please note that Chrome automatically redirects `.dev` domains to `https`, so you may need to use a different apex domain for local testing.
+
+## Reference
+
+- [Redirects](https://vercel.com/docs/concepts/edge-network/redirects)
+- [Edge Middleware](https://vercel.com/docs/concepts/functions/edge-middleware)
 
 ## License
 
