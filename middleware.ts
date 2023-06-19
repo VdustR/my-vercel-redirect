@@ -7,6 +7,7 @@ type SubdomainOptionsBase =
   | {
       target: string;
       status?: number;
+      cacheControl?: string;
     };
 
 function defineSubdomainMap<
@@ -22,6 +23,7 @@ function defineSubdomainMap<
 }
 
 const defaultStatus = 307;
+const defaultCacheControl = "public, max-age=3600, must-revalidate";
 
 const subdomainMap = defineSubdomainMap({
   blog: "https://vdustr.dev/blog",
@@ -59,15 +61,20 @@ export default function middleware(request: Request) {
       ? matchedSubdomainOptions
       : matchedSubdomainOptions.target;
   const status =
-    typeof matchedSubdomainOptions === "string"
+    typeof matchedSubdomainOptions === "string" ||
+    !("status" in matchedSubdomainOptions)
       ? defaultStatus
-      : "status" in matchedSubdomainOptions
-      ? matchedSubdomainOptions.status
-      : defaultStatus;
+      : matchedSubdomainOptions.status;
+  const cacheControl =
+    typeof matchedSubdomainOptions === "string" ||
+    !("cacheControl" in matchedSubdomainOptions)
+      ? defaultCacheControl
+      : matchedSubdomainOptions.cacheControl;
   return new Response(null, {
     status,
     headers: {
       Location: urlJoin(target, pathAndHash),
+      "Cache-Control": cacheControl,
     },
   });
 }
