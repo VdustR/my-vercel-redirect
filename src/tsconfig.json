@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "declaration": false,
+    "outDir": ".."
+  },
+  "exclude": [],
+  "extends": [
+    "@vp-tw/tsconfig/base/bundler/tsconfig",
+    "@vp-tw/tsconfig/ext/emit/tsconfig"
+  ]
+}

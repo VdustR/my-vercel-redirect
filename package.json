@@ -1,23 +1,26 @@
 {
   "type": "module",
   "scripts": {
-    "vercel:dev": "vercel dev"
+    "build": "tsc -p src",
+    "prepare": "pnpm build",
+    "vercel:dev": "dotenvx run --env DOMAIN=dev.localhost -- pnpm exec vercel dev"
   },
   "dependencies": {
-    "@vercel/edge": "^0.3.4",
-    "@vercel/node": "^2.15.1",
     "url-join": "^5.0.0"
   },
   "devDependencies": {
-    "@total-typescript/ts-reset": "^0.4.2",
-    "@tsconfig/node18-strictest-esm": "^1.0.1",
-    "prettier": "^2.8.8",
-    "typescript": "^4.9.5",
-    "vercel": "^30.2.2"
+    "@dotenvx/dotenvx": "^1.34.0",
+    "@total-typescript/ts-reset": "^0.6.1",
+    "@types/node": "^22.12.0",
+    "@vp-tw/tsconfig": "^2.0.1",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^3.4.2",
+    "typescript": "^5.7.3",
+    "vercel": "^39.4.2"
   },
-  "packageManager": "pnpm@8.6.2",
+  "packageManager": "pnpm@9.15.4+sha512.b2dc20e2fc72b3e18848459b37359a32064663e5627a51e4c74b2c29dd8e8e0491483c3abb40789cfd578bf362fb6ba8261b05f0387d76792ed6e23ea3b1b6a0",
   "engines": {
-    "node": "18",
-    "pnpm": "8"
+    "node": ">=18",
+    "pnpm": ">=8"
   }
 }

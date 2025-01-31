@@ -1,5 +1,0 @@
-{
-	"include": [
-		"../../../../../api/handler.ts"
-	]
-}

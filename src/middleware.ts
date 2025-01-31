@@ -1,6 +1,6 @@
 import urlJoin from "url-join";
 
-const myDomain = "vdustr.dev";
+const myDomain = process.env.DOMAIN ?? "vdustr.dev";
 
 type SubdomainOptionsBase =
   | string
@@ -13,9 +13,9 @@ type SubdomainOptionsBase =
 function defineSubdomainMap<
   T extends {
     [subdomain: string]: SubdomainOptionsBase;
-  }
+  },
 >(
-  map: T
+  map: T,
 ): T & {
   [subdomain: string]: SubdomainOptionsBase;
 } {
@@ -32,6 +32,7 @@ const subdomainMap = defineSubdomainMap({
   gh: "https://github.com/vdustr",
   r: "https://www.reddit.com/u/vp_tw",
   t: "https://twitter.com/vp_tw",
+  x: "https://x.com/vp_tw",
 } as const);
 
 export default function middleware(request: Request) {
@@ -45,7 +46,7 @@ export default function middleware(request: Request) {
         return [options];
       }
       return [];
-    }
+    },
   )[0];
 
   if (!matchedSubdomainOptions) {

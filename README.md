@@ -9,14 +9,10 @@ This is a Vercel application that enables subdomain redirection to other domains
 
 ## Local Testing
 
-Requirements: please check the `engines` field in `package.json`.
-
-- Run `pnpm install` to install dependencies.
+- Run `pnpm i` to install dependencies.
 - Run `pnpm vercel:dev` to start the local development server.
-- Add `127.0.0.1 my.domain` to your `/etc/hosts` file and replace `my.domain` with your desired domain.
-- Open your browser and visit `http://my.domain:3000`.
-
-Please note that Chrome automatically redirects `.dev` domains to `https`, so you may need to use a different apex domain for local testing.
+- Open your browser and visit `http://gh.dev.localhost:3000`.
+- Run `pnpm build -w` in another terminal to watch for changes.
 
 ## Reference
 
