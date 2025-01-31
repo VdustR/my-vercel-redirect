@@ -4,8 +4,10 @@ This is a Vercel application that enables subdomain redirection to other domains
 
 ## Usage
 
-- Fork this repository and modify the `myDomain` and `subdomainMap` variables in `middleware.ts`.
-- Deploy the forked repository to Vercel and set up the domain listed in the `subdomainMap` variable.
+1. Fork this repository and update the `myDomain` and `subdomainMap` variables in `middleware.ts`.
+2. Deploy your forked repository to Vercel and configure the domains listed in the `subdomainMap` variable.
+3. Set up the domain in your Vercel project:  
+   ![Vercel Domain Setup](./docs/setupDomain.png)
 
 ## Local Testing
 
