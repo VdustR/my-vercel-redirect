@@ -17,6 +17,19 @@ const subdomainMap = defineSubdomainMap({
 export default function middleware(request) {
     const url = new URL(request.url);
     const domain = url.hostname;
+    if (domain === myDomain) {
+        const targetUrl = new URL(url);
+        targetUrl.protocol = "https:";
+        targetUrl.hostname = "vdustr.github.io";
+        targetUrl.port = "";
+        return new Response(null, {
+            status: 307,
+            headers: {
+                Location: targetUrl.toString(),
+                "Cache-Control": "private, no-store",
+            },
+        });
+    }
     const matchedSubdomainOptions = Object.entries(subdomainMap).flatMap(([subdomain, options]) => {
         if (domain === `${subdomain}.${myDomain}`) {
             return [options];
