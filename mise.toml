@@ -1,0 +1,25 @@
+[tools]
+node = "24.19.0"
+pnpm = "11.22.0"
+
+[tasks.check]
+depends = ["format", "test", "typecheck"]
+
+[tasks.dev]
+run = "pnpm exec vercel dev"
+
+[tasks.dev.env]
+DOMAIN = "dev.localhost"
+ENABLE_EXPERIMENTAL_COREPACK = "1"
+
+[tasks.format]
+run = "pnpm format:check"
+
+[tasks.install]
+run = "pnpm install --frozen-lockfile"
+
+[tasks.test]
+run = "pnpm test"
+
+[tasks.typecheck]
+run = "pnpm typecheck"

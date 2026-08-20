@@ -1,3 +1,0 @@
-pnpm exec prettier --ignore-unknown . --write
-pnpm build
-git add .

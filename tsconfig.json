@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "lib": ["ES2024", "DOM"],
+    "module": "ESNext",
+    "noEmit": true,
+    "strict": true,
+    "target": "ES2024"
+  },
+  "include": ["middleware.ts"]
+}
