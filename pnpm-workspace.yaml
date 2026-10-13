@@ -1,2 +1,13 @@
 allowBuilds:
   esbuild: true
+overrides:
+  # Keep CLI/builders pinned while patching verified external consumer APIs.
+  # Track removal of these overrides in GitHub issue 7.
+  "@vercel/fun>@tootallnate/once": 2.0.1
+  "@vercel/fun>tar": 7.5.22
+  "@vercel/python-analysis>js-yaml": 4.3.2
+  "@vercel/python-analysis>minimatch": 10.2.3
+  smol-toml: 1.9.0
+  rollup: 3.30.0
+  "vercel>undici": 6.29.0
+  "@vercel/node>undici": 6.29.0

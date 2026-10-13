@@ -4,7 +4,7 @@
     "build": "pnpm typecheck",
     "format": "prettier --ignore-unknown --write .",
     "format:check": "prettier --check .",
-    "test": "node --test middleware.test.mjs",
+    "test": "node --test middleware.test.mjs tooling.test.mjs && node tooling-undici.test.mjs",
     "typecheck": "tsc"
   },
   "devDependencies": {
