@@ -9,5 +9,6 @@ overrides:
   "@vercel/python-analysis>minimatch": 10.2.3
   smol-toml: 1.9.0
   rollup: 3.30.0
-  "vercel>undici": 6.29.0
-  "@vercel/node>undici": 6.29.0
+  "vercel>undici": 6.29.1
+  "@vercel/node>undici": 6.29.1
+  "@vercel/blob>undici": 6.29.1
