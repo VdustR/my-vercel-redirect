@@ -12,3 +12,4 @@ overrides:
   "vercel>undici": 6.29.1
   "@vercel/node>undici": 6.29.1
   "@vercel/blob>undici": 6.29.1
+  "@vercel/sandbox>undici": 7.30.1
