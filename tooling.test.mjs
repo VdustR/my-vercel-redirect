@@ -153,3 +153,81 @@ test("NFT tracing preserves local dependencies without an optional Rollup peer",
     assert(traced.fileList.has("dependency.cjs"));
   });
 });
+
+test("the CLI's ts-morph consumer preserves glob selection and config errors", async () => {
+  const nodeRequire = createRequire(cliRequire.resolve("@vercel/node"));
+  const { Project } = nodeRequire("ts-morph");
+  const { getConfig } = nodeRequire("@vercel/static-config");
+  const project = new Project({ useInMemoryFileSystem: true });
+  project.createSourceFile(
+    "/api/included.ts",
+    'export const config = { runtime: "edge", regions: ["iad1"] };',
+  );
+  project.createSourceFile("/api/excluded.ts", "export const value = 1;");
+  project.createSourceFile("/api/nested/other.ts", "export const value = 2;");
+  assert.deepEqual(
+    project
+      .getSourceFiles(["/api/**/*.ts", "!/api/excluded.ts"])
+      .map((file) => file.getFilePath())
+      .sort(),
+    ["/api/included.ts", "/api/nested/other.ts"],
+  );
+  assert.deepEqual(getConfig(project, "/api/included.ts"), {
+    runtime: "edge",
+    regions: ["iad1"],
+  });
+  project.createSourceFile(
+    "/api/invalid.ts",
+    "export const config = { runtime: 42 };",
+  );
+  assert.throws(() => getConfig(project, "/api/invalid.ts"), /Invalid data/);
+  assert.throws(() => getConfig(project, "/api/missing.ts"), /not found/i);
+});
+
+test("NFT's glob consumer preserves assets, ignores, and unresolved warnings", async () => {
+  await withFixture(async (directory) => {
+    await mkdir(join(directory, "assets", "nested"), { recursive: true });
+    await mkdir(join(directory, "assets", "node_modules"), { recursive: true });
+    for (const file of [
+      "one.txt",
+      ".hidden.txt",
+      "nested/two.txt",
+      "node_modules/skip.txt",
+    ])
+      await writeFile(join(directory, "assets", file), "fixture");
+    await writeFile(
+      join(directory, "entry.cjs"),
+      'const fs = require("fs"); const path = require("path"); fs.readdirSync(path.join(__dirname, "assets")); require("missing-fixture-dependency");',
+    );
+    const nftRequire = createRequire(cliRequire.resolve("@vercel/nft"));
+    const { glob } = nftRequire("glob");
+    assert.deepEqual(
+      (
+        await glob("assets/**/*.txt", {
+          cwd: directory,
+          dot: true,
+          nodir: true,
+          ignore: "**/node_modules/**",
+        })
+      ).sort(),
+      ["assets/.hidden.txt", "assets/nested/two.txt", "assets/one.txt"],
+    );
+    await assert.rejects(glob(42), TypeError);
+    const { nodeFileTrace } = cliRequire("@vercel/nft");
+    const traced = await nodeFileTrace([join(directory, "entry.cjs")], {
+      base: directory,
+    });
+    for (const file of [
+      "assets/one.txt",
+      "assets/.hidden.txt",
+      "assets/nested/two.txt",
+    ])
+      assert(traced.fileList.has(file), `Missing traced asset: ${file}`);
+    assert.equal(traced.fileList.has("assets/node_modules/skip.txt"), false);
+    assert(
+      [...traced.warnings].some((warning) =>
+        warning.message.includes("missing-fixture-dependency"),
+      ),
+    );
+  });
+});

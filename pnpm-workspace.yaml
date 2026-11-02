@@ -6,10 +6,18 @@ overrides:
   "@vercel/fun>@tootallnate/once": 2.0.1
   "@vercel/fun>tar": 7.5.22
   "@vercel/python-analysis>js-yaml": 4.3.2
-  "@vercel/python-analysis>minimatch": 10.2.3
+  # GHSA-g3hv-75wg-m249: upgrade every minimatch path, including legacy ts-morph.
+  # glob 14 supports minimatch 11's Matcher API; glob 13 bundles the old matcher.
+  "@vercel/python-analysis>minimatch": 11.0.2
+  "@ts-morph/common>minimatch": 11.0.2
+  "glob>minimatch": 11.0.2
+  "@vercel/nft>glob": 14.0.3
   smol-toml: 1.9.0
   rollup: 3.30.0
   "vercel>undici": 6.29.1
   "@vercel/node>undici": 6.29.1
   "@vercel/blob>undici": 6.29.1
   "@vercel/sandbox>undici": 7.30.1
+patchedDependencies:
+  # Preserve common's callable matcher with minimatch's named export.
+  "@ts-morph/common@0.11.1": patches/@ts-morph__common@0.11.1.patch
